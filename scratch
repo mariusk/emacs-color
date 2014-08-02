@@ -1,0 +1,37 @@
+(let (colors)
+ (dotimes (i 5)
+          (setq colors (cons (gen-col-list 9 0.5 0.5) colors)))
+ (pp (reverse colors))
+ nil)
+
+;; (("#3fbfbc" "#bf973f" "#713fbf" "#3fbf4c" "#bf3f58" "#3f7dbf" "#a2bf3f" "#b63fbf" "#3fbf91")
+;;  ("#3fbf40" "#bf3f64" "#3f89bf" "#aebf3f" "#aa3fbf" "#3fbf85" "#bf603f" "#3f44bf" "#69bf3f")
+;;  ("#83bf3f" "#bf3fa8" "#3fbfb0" "#bf8b3f" "#663fbf" "#3fbf40" "#bf3f63" "#3f89bf" "#aebf3f")
+;;  ("#843fbf" "#3fbf5e" "#bf3f45" "#3f6bbf" "#90bf3f" "#bf3fb5" "#3fbfa3" "#bf7e3f" "#593fbf")
+;;  ("#bf3f49" "#3f6fbf" "#94bf3f" "#bf3fb9" "#3fbf9f" "#bf7a3f" "#553fbf" "#4fbf3f" "#bf3f74"))
+;; nil
+
+(let (colors)
+ (dotimes (i 3)
+          (setq colors (cons (gen-col-list 9 (/ (1+ i) 3.0) 0.5 0.2) colors)))
+ (pp (reverse colors))
+ nil)
+
+;; (("#98aa55" "#a255aa" "#55aa89" "#aa7055" "#5755aa" "#6baa55" "#aa5583" "#559caa" "#aa9e55")
+;;  ("#b2d42a" "#c42ad4" "#2ad493" "#d4612a" "#302ad4" "#56d42a" "#d42a88" "#2ab9d4" "#d4bd2a")
+;;  ("#cbff00" "#e700ff" "#00ff9d" "#ff5200" "#0800ff" "#42ff00" "#ff008c" "#00d6ff" "#ffdc00"))
+;; nil
+
+(let (colors)
+ (dotimes (i 4)
+          (setq colors (cons (gen-col-list 9 0.5 (/ (1+ i) 5.0) 0.2) colors)))
+ (pp (reverse colors))
+ nil)
+
+;; (("#424c19" "#47194c" "#194c38" "#4c2a19" "#1b194c" "#264c19" "#4c1935" "#19444c" "#4c4519")
+;;  ("#849932" "#8f3299" "#329971" "#995432" "#363299" "#4d9932" "#99326b" "#328899" "#998b32")
+;;  ("#b7cc65" "#c265cc" "#65cca4" "#cc8765" "#6965cc" "#80cc65" "#cc659e" "#65bbcc" "#ccbe65")
+;;  ("#dbe5b2" "#e0b2e5" "#b2e5d1" "#e5c3b2" "#b4b2e5" "#bfe5b2" "#e5b2ce" "#b2dde5" "#e5deb2"))
+;; nil
+
+
