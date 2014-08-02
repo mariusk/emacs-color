@@ -119,33 +119,35 @@ Great, so now we can generate palettes. The final piece of code that I
 use is to make 'rainbow-delimiters-mode' actually use my palette. This
 is what it looks like in my .emacs file:
 
-    (defun set-random-rainbow-colors (s l &optional h)
-      ;; Output into message buffer in case you get a scheme you REALLY like.
-      ;; (message "set-random-rainbow-colors %s" (list s l h))
-      
-      (rainbow-delimiters-mode t)
-    
-      ;; I also want css style colors in my code.
-      (xah-syntax-color-hex)
-      
-      ;; Show mismatched braces in bright red.
-      (set-face-background 'rainbow-delimiters-unmatched-face "red")
-    
-      ;; Rainbow delimiters based on golden ratio
-      (let ( (colors (gen-col-list 9 s l h))
-             (i 1) )
-        (let ( (length (length colors)) )
-          ;;(message (concat "i " (number-to-string i) " length " (number-to-string length)))
-          (while (<= i length) 
-            (let ( (rainbow-var-name (concat "rainbow-delimiters-depth-" (number-to-string i) "-face"))
-                   (col (nth i colors)) )
-              ;; (message (concat rainbow-var-name " => " col))
-              (set-face-foreground (intern rainbow-var-name) col))
-            (setq i (+ i 1))))))
-    
-    (add-hook 'js-mode-hook '(lambda () (set-random-rainbow-colors 0.5 0.49)))
-    (add-hook 'emacs-lisp-mode-hook '(lambda () (set-random-rainbow-colors 0.5 0.49)))
-    (add-hook 'lisp-mode-hook '(lambda () (set-random-rainbow-colors 0.5 0.49)))
+```lisp
+(defun set-random-rainbow-colors (s l &optional h)
+  ;; Output into message buffer in case you get a scheme you REALLY like.
+  ;; (message "set-random-rainbow-colors %s" (list s l h))
+  
+  (rainbow-delimiters-mode t)
+
+  ;; I also want css style colors in my code.
+  (xah-syntax-color-hex)
+  
+  ;; Show mismatched braces in bright red.
+  (set-face-background 'rainbow-delimiters-unmatched-face "red")
+
+  ;; Rainbow delimiters based on golden ratio
+  (let ( (colors (gen-col-list 9 s l h))
+         (i 1) )
+    (let ( (length (length colors)) )
+      ;;(message (concat "i " (number-to-string i) " length " (number-to-string length)))
+      (while (<= i length) 
+        (let ( (rainbow-var-name (concat "rainbow-delimiters-depth-" (number-to-string i) "-face"))
+               (col (nth i colors)) )
+          ;; (message (concat rainbow-var-name " => " col))
+          (set-face-foreground (intern rainbow-var-name) col))
+        (setq i (+ i 1))))))
+
+(add-hook 'js-mode-hook '(lambda () (set-random-rainbow-colors 0.5 0.49)))
+(add-hook 'emacs-lisp-mode-hook '(lambda () (set-random-rainbow-colors 0.5 0.49)))
+(add-hook 'lisp-mode-hook '(lambda () (set-random-rainbow-colors 0.5 0.49)))
+```
 
 The first part is the function setting the rainbow colors using a
 generated palette. The second part ('add-hook' calls) shows how I
