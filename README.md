@@ -36,6 +36,7 @@ To colorize CSS coded colors in the current buffer, install the
 following function into your .emacs and activate it on any buffer you
 want to colorize:
 
+```lisp
     ;; Taken from: http://ergoemacs.org/emacs/elisp_eval_lisp_code.html
     (defun xah-syntax-color-hex ()
       "Syntax color hex color spec such as 「#ff1100」 in current buffer."
@@ -49,41 +50,40 @@ want to colorize:
               'face (list :background (match-string-no-properties 0)))))))
       (font-lock-fontify-buffer)
       )
-
+```
+      
 When you see screenshots with CSS color code in color, the code above
 is what does the actual coloring.
 
 So what does the gen-col-list look like? Here:
 
-    ;; Generates a list of random color values using the
-    ;; Golden Ratio method described here:
-    ;;   http://martin.ankerl.com/2009/12/09/how-to-create-random-colors-programmatically/
-    ;; The list will be length long. Example:
-    ;;
-    ;; (gen-col-list 3 0.5 0.65)
-    ;; => ("#be79d2" "#79d2a4" "#d28a79")
-    (require 'color)
-    (defun gen-col-list (length s v &optional hval)
-      (cl-flet ( (random-float () (/ (random 10000000000) 10000000000.0))
-              (mod-float (f) (- f (ffloor f))) )
-        (unless hval
-          (setq hval (random-float)))
-        (message (concat "gen-col-list s, l, v " 
-                         (number-to-string s) ", "
-                         (number-to-string v) ", "
-                         (number-to-string hval)))
-        (let ((golden-ratio-conjugate (/ (- (sqrt 5) 1) 2))
-              (h hval)
-              (current length)
-              (ret-list '()))
-          (while (> current 0)
-            (setq ret-list
-                  (append ret-list 
-                          (list (apply 'color-rgb-to-hex (color-hsl-to-rgb h s v)))))
-            (setq h (mod-float (+ h golden-ratio-conjugate)))
-            (setq current (- current 1)))
-          ret-list)))
-
+```lisp
+;; Generates a list of random color values using the
+;; Golden Ratio method described here:
+;;   http://martin.ankerl.com/2009/12/09/how-to-create-random-colors-programmatically/
+;; The list will be length long. Example:
+;;
+;; (gen-col-list 3 0.5 0.65)
+;; => ("#be79d2" "#79d2a4" "#d28a79")
+(require 'color)
+(defun gen-col-list (length s v &optional hval)
+  (cl-flet ( (random-float () (/ (random 10000000000) 10000000000.0))
+          (mod-float (f) (- f (ffloor f))) )
+    (unless hval
+      (setq hval (random-float)))
+    (let ((golden-ratio-conjugate (/ (- (sqrt 5) 1) 2))
+          (h hval)
+          (current length)
+          (ret-list '()))
+      (while (> current 0)
+        (setq ret-list
+              (append ret-list 
+                      (list (apply 'color-rgb-to-hex (color-hsl-to-rgb h s v)))))
+        (setq h (mod-float (+ h golden-ratio-conjugate)))
+        (setq current (- current 1)))
+      ret-list)))
+```
+      
 It makes a list of CSS color codes, taking three parameters. The
 algorithms I linked to earlier refers to methods using the HSV color
 model, but in my code I'm using the HSL model. Why? Because Emacs
