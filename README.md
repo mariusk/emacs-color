@@ -37,19 +37,19 @@ following function into your .emacs and activate it on any buffer you
 want to colorize:
 
 ```lisp
-    ;; Taken from: http://ergoemacs.org/emacs/elisp_eval_lisp_code.html
-    (defun xah-syntax-color-hex ()
-      "Syntax color hex color spec such as 「#ff1100」 in current buffer."
-      (interactive)
-      (font-lock-add-keywords
-       nil
-       '(("#[abcdef[:digit:]]\\{6\\}"
-          (0 (put-text-property
-              (match-beginning 0)
-              (match-end 0)
-              'face (list :background (match-string-no-properties 0)))))))
-      (font-lock-fontify-buffer)
-      )
+;; Taken from: http://ergoemacs.org/emacs/elisp_eval_lisp_code.html
+(defun xah-syntax-color-hex ()
+  "Syntax color hex color spec such as 「#ff1100」 in current buffer."
+  (interactive)
+  (font-lock-add-keywords
+   nil
+   '(("#[abcdef[:digit:]]\\{6\\}"
+      (0 (put-text-property
+          (match-beginning 0)
+          (match-end 0)
+          'face (list :background (match-string-no-properties 0)))))))
+  (font-lock-fontify-buffer)
+  )
 ```
       
 When you see screenshots with CSS color code in color, the code above
