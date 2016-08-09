@@ -75,7 +75,7 @@ Version 2016-08-09"
                        (fgstr (fg-from-bg bgstr)))
                   (put-text-property
                    (match-beginning 0)
-                   (match-end 0)
+                   (- (match-end 0) 1)
                    'face (list :background bgstr :foreground fgstr)
                    )))))
      ))
