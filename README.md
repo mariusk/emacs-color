@@ -37,19 +37,49 @@ following function into your .emacs and activate it on any buffer you
 want to colorize:
 
 ```lisp
-;; Taken from: http://ergoemacs.org/emacs/elisp_eval_lisp_code.html
+;; Takes a color string like #ffe0e0 and returns a light
+;; or dark foreground color to make sure text is readable.
+(defun fg-from-bg (bg)
+  (let* ((avg (/ (+ (string-to-number (substring bg 1 3) 16)
+                    (string-to-number (substring bg 3 5) 16)
+                    (string-to-number (substring bg 5 7) 16)
+                    ) 3)))
+    (if (> avg 128) "#000000" "#ffffff")
+    ))
+
+;; Improved from http://ergoemacs.org/emacs/emacs_CSS_colors.html
+;; * Avoid mixing up #abc and #abcabc regexps
+;; * Make sure dark background have light foregrounds and vice versa
 (defun xah-syntax-color-hex ()
-  "Syntax color hex color spec such as 「#ff1100」 in current buffer."
+  "Syntax color text of the form 「#ff1100」 and 「#abc」 in current buffer.
+URL `https://github.com/mariusk/emacs-color'
+Version 2016-08-09"
   (interactive)
   (font-lock-add-keywords
    nil
-   '(("#[abcdef[:digit:]]\\{6\\}"
-      (0 (put-text-property
-          (match-beginning 0)
-          (match-end 0)
-          'face (list :background (match-string-no-properties 0)))))))
-  (font-lock-fontify-buffer)
-  )
+   '(
+     ("#[ABCDEFabcdef[:digit:]]\\{6\\}"
+      (0 (progn (let* ((bgstr (match-string-no-properties 0))
+                       (fgstr (fg-from-bg bgstr)))
+                  (put-text-property
+                   (match-beginning 0)
+                   (match-end 0)
+                   'face (list :background bgstr :foreground fgstr))))))
+     ("#[ABCDEFabcdef[:digit:]]\\{3\\}[^ABCDEFabcdef[:digit:]]"
+      (0 (progn (let* (
+                       (ms (match-string-no-properties 0))
+                       (r (substring ms 1 2))
+                       (g (substring ms 2 3))
+                       (b (substring ms 3 4))
+                       (bgstr (concat "#" r r g g b b))
+                       (fgstr (fg-from-bg bgstr)))
+                  (put-text-property
+                   (match-beginning 0)
+                   (match-end 0)
+                   'face (list :background bgstr :foreground fgstr)
+                   )))))
+     ))
+  (font-lock-fontify-buffer))
 ```
       
 When you see screenshots with CSS color code in color, the code above
