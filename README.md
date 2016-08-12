@@ -1,3 +1,6 @@
+**Code was recently updated to make sure foreground and background
+colors are always in contrast with eachother.**
+
 Syntax highlighting is great. Emacs has lots of modules for such. And
 Emacs extensibility allow one to tweak it to ones liking. Here's a
 quick screenshot demonstrating how I use colors in my source code, and
